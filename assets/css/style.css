@@ -1,0 +1,59 @@
+/* Style for the Custom API Data section */
+.custom-api-data {
+	margin: 20px 0;
+	padding: 10px;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+}
+
+.custom-api-data ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.custom-api-data li {
+	padding: 5px 0;
+	border-bottom: 1px solid #eee;
+}
+
+.custom-api-data li:last-child {
+	border-bottom: none;
+}
+
+/* Style for the API Settings form */
+#custom-api-settings-form {
+	margin: 20px 0;
+	padding: 10px;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+}
+
+#custom-api-settings-form label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+#custom-api-settings-form input.regular-text {
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+#custom-api-settings-form .button {
+	background-color: #0073aa;
+	border-color: #0073aa;
+	color: #fff;
+	text-decoration: none;
+	font-size: 14px;
+	line-height: 1.5;
+	padding: 8px 16px;
+	border-radius: 4px;
+}
+
+#custom-api-settings-form .button:hover {
+	background-color: #005d8a;
+	border-color: #005d8a;
+}
