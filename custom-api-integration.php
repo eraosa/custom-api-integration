@@ -17,14 +17,32 @@ define( 'CUSTOM_API_INTEGRATION_VERSION', '1.0' );
 define( 'CUSTOM_API_INTEGRATION_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CUSTOM_API_INTEGRATION_URL', plugin_dir_url( __FILE__ ) );
 
-// Include necessary files
-require_once CUSTOM_API_INTEGRATION_DIR . 'includes/class-custom-api-widget.php';
-require_once CUSTOM_API_INTEGRATION_DIR . 'includes/class-custom-api-my-account.php';
-require_once CUSTOM_API_INTEGRATION_DIR . 'includes/class-custom-api-handler.php';
+// Include necessary files with error handling
+$includes = array(
+	'includes/class-custom-api-widget.php',
+	'includes/class-custom-api-my-account.php',
+	'includes/class-custom-api-handler.php',
+);
+
+foreach ( $includes as $file ) {
+	if ( file_exists( CUSTOM_API_INTEGRATION_DIR . $file ) ) {
+		require_once CUSTOM_API_INTEGRATION_DIR . $file;
+	} else {
+		add_action( 'admin_notices', function() use ( $file ) {
+			echo '<div class="notice notice-error"><p>' . esc_html( "File not found: $file" ) . '</p></div>';
+		} );
+	}
+}
 
 // Register widget
 function custom_api_integration_register_widget() {
-	register_widget( 'Custom_API_Widget' );
+	if ( class_exists( 'Custom_API_Widget' ) ) {
+		register_widget( 'Custom_API_Widget' );
+	} else {
+		add_action( 'admin_notices', function() {
+			echo '<div class="notice notice-error"><p>' . esc_html( "Widget class not found: Custom_API_Widget" ) . '</p></div>';
+		} );
+	}
 }
 add_action( 'widgets_init', 'custom_api_integration_register_widget' );
 
@@ -37,9 +55,11 @@ add_filter( 'woocommerce_account_menu_items', 'custom_api_integration_add_my_acc
 
 // Display My Account tab content
 function custom_api_integration_my_account_content() {
-	include CUSTOM_API_INTEGRATION_DIR . 'includes/class-custom-api-my-account.php';
+	// This function should call a method in class-custom-api-my-account.php to display the content.
+	Custom_API_My_Account::display_custom_api_data();
 }
 add_action( 'woocommerce_account_custom-api_endpoint', 'custom_api_integration_my_account_content' );
+
 
 // Enqueue scripts and styles
 function custom_api_integration_enqueue_scripts() {
