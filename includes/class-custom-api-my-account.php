@@ -49,5 +49,6 @@ class Custom_API_My_Account {
 	}
 }
 
-Custom_API_My_Account::display_custom_api_data();
+// Remove the immediate call to display_custom_api_data()
+// Custom_API_My_Account::display_custom_api_data();
 ?>
