@@ -25,8 +25,8 @@ class Custom_API_Widget extends WP_Widget {
 
 		if ( ! empty( $data ) ) {
 			echo '<ul>';
-			foreach ( $data as $item ) {
-				echo '<li>' . esc_html( $item ) . '</li>';
+			foreach ( $data as $key => $value ) {
+				echo '<li><strong>' . esc_html( $key ) . ':</strong> ' . esc_html( $value ) . '</li>';
 			}
 			echo '</ul>';
 		} else {

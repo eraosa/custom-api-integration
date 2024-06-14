@@ -32,26 +32,27 @@ class Custom_API_Handler {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			// Log the error message for debugging purposes
 			error_log( 'Custom API Error: ' . $response->get_error_message() );
 			return array();
 		}
 
 		$body = wp_remote_retrieve_body( $response );
 		if ( empty( $body ) ) {
+			error_log( 'Custom API Error: Empty body response' );
 			return array();
 		}
 
 		$data = json_decode( $body, true );
 		if ( json_last_error() !== JSON_ERROR_NONE || ! is_array( $data ) ) {
-			// Log JSON decode error for debugging purposes
 			error_log( 'Custom API JSON Decode Error: ' . json_last_error_msg() );
 			return array();
 		}
 
+		error_log( 'Custom API Response: ' . print_r( $data, true ) ); // Log the response
+
 		$return_data = array();
-		if ( isset( $data['json']['elements'] ) && is_array( $data['json']['elements'] ) ) {
-			$return_data = $data['json']['elements'];
+		if ( isset( $data['headers'] ) && is_array( $data['headers'] ) ) {
+			$return_data = $data['headers'];
 		}
 
 		// Cache the data for 5 minutes.
