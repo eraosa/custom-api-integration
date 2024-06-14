@@ -16,8 +16,9 @@ class Custom_API_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$current_user = wp_get_current_user();
 		$user_elements = get_user_meta( $current_user->ID, 'custom_api_elements', true );
+		$user_elements = is_string( $user_elements ) ? $user_elements : '';
 
-		$data = Custom_API_Handler::get_api_data( $user_elements );
+		$data = class_exists( 'Custom_API_Handler' ) ? Custom_API_Handler::get_api_data( $user_elements ) : array();
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . __( 'Custom API Data', 'custom-api-integration' ) . $args['after_title'];
