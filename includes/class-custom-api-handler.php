@@ -32,13 +32,20 @@ class Custom_API_Handler {
 		);
 
 		if ( is_wp_error( $response ) ) {
+			// Log the error message for debugging purposes
+			error_log( 'Custom API Error: ' . $response->get_error_message() );
 			return array();
 		}
 
 		$body = wp_remote_retrieve_body( $response );
-		$data = json_decode( $body, true );
+		if ( empty( $body ) ) {
+			return array();
+		}
 
-		if ( ! is_array( $data ) ) {
+		$data = json_decode( $body, true );
+		if ( json_last_error() !== JSON_ERROR_NONE || ! is_array( $data ) ) {
+			// Log JSON decode error for debugging purposes
+			error_log( 'Custom API JSON Decode Error: ' . json_last_error_msg() );
 			return array();
 		}
 
